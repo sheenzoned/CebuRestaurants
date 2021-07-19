@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Restaurants in Cebu",
+  "name": "Google maps application for restaurants across Cebu",
   "icons": [
     {
       "src": "favicon.ico",
