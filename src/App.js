@@ -1,5 +1,5 @@
 import "./App.css";
-import RestaurantMaps from "./components/_pages/Maps";
+import RestaurantMaps from "./components/_pages/RestaurantMaps";
 
 function App() {
   return (
