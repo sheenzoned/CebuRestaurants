@@ -1,20 +1,10 @@
 import React from "react";
 import "./index.scss";
 import { Loader } from "@googlemaps/js-api-loader";
+import { DrawRectangle } from "../../../components/_ui";
+// import { map } from "../../../components/constants";
 
-//draw
-import EditLocationIcon from "@material-ui/icons/EditLocation";
-let rectangle;
-const bounds = {
-  north: 10.3919,
-  south: 10.2995,
-  east: 123.951,
-  west: 123.8378,
-};
-// 10.3919, 10.2995;
-// 123.9518, 123.8378;
-
-let map;
+let map = {};
 let service;
 let infowindow;
 const additionalOptions = {};
@@ -28,6 +18,7 @@ const request = {
   query: "restaurant",
   fields: ["name", "geometry"],
 };
+
 loader.load().then(() => {
   infowindow = new window.google.maps.InfoWindow();
   map = new window.google.maps.Map(document.getElementById("map"), {
@@ -64,49 +55,11 @@ function createMarker(place) {
   });
 }
 
-//draw
-let isDrawShown = false;
-const doAction = (e) => {
-  // Define the rectangle and set its editable property to true.
-  rectangle = new window.google.maps.Rectangle({
-    bounds: bounds,
-    editable: true,
-    draggable: true,
-  });
-  if (isDrawShown) {
-    isDrawShown = false;
-    console.log("hide");
-    rectangle.setMap(null);
-  } else {
-    // isDrawShown = false;
-    // console.log("hide");
-    // rectangle.setMap(null);
-    isDrawShown = true;
-    rectangle.setMap(map);
-    // Add an event listener on the rectangle.
-    rectangle.addListener("bounds_changed", showRestaurants);
-    console.log("shown");
-  }
-};
-
-/** Show the new coordinates for the rectangle in an info window. */
-function showRestaurants() {
-  const ne = rectangle.getBounds().getNorthEast();
-  const sw = rectangle.getBounds().getSouthWest();
-  console.log("ne: " + ne);
-  console.log("sw: " + sw);
-  //insert method here
-}
-
 const RestaurantMaps = () => {
   return (
     <div>
       <div id="map"></div>
-      <div className="draw">
-        <button onClick={(e) => doAction(e)}>
-          <EditLocationIcon fontSize="large" />
-        </button>
-      </div>
+      <DrawRectangle map />
     </div>
   );
 };
