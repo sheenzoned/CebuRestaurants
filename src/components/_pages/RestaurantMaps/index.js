@@ -5,8 +5,9 @@ import "./index.scss";
 import { Loader } from "@googlemaps/js-api-loader";
 import HighlightAltIcon from "@material-ui/icons/HighlightAlt";
 import FilterAltIcon from "@material-ui/icons/FilterAlt";
+import DirectionsIcon from "@material-ui/icons/Directions";
 // import { DrawRectangle } from "../../../components/_ui";
-import { restaurants, restaurantType } from "../../../components/_api/data";
+import { restaurants } from "../../../components/_api/data";
 
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -19,7 +20,14 @@ let map;
 let infowindow;
 let rectangle;
 let rectangleWindow;
-// let markers = [];
+// let selectedTypes = [
+//   "FINE_DINING",
+//   "CASUAL_DINING",
+//   "BUFFET",
+//   "CAFE",
+//   "FAST_FOOD",
+// ];
+let markers = [];
 const additionalOptions = {};
 const loader = new Loader({
   apiKey: "AIzaSyBUcw8F-SDRojtF1o075_uXKYtJsp24FHw",
@@ -56,10 +64,6 @@ function initMap() {
   });
 }
 
-// function filterMarker(filters) {
-//   // for (let i = 0; i < restaurants.length; i++) {
-// }
-
 function createMarker(place) {
   if (!place.geometry || !place.geometry.location) return;
 
@@ -67,9 +71,9 @@ function createMarker(place) {
   const marker = new window.google.maps.Marker({
     map,
     position: place.geometry.location,
+    type: place.type,
   });
-  // markers.push(marker);
-  // marker.setVisible(true); //set visibility
+  markers.push(marker);
 
   window.google.maps.event.addListener(marker, "mouseover", () => {
     const foods = place.foodSpecialty.join(", ");
@@ -77,6 +81,24 @@ function createMarker(place) {
     infowindow.setContent(infoContent);
     infowindow.open(map, marker);
   });
+
+  window.google.maps.event.addListener(marker, "click", () => {
+    let lat = marker.getPosition().lat();
+    let lng = marker.getPosition().lng();
+    // marker.setVisible(false);
+  });
+}
+
+function filterMarkers(type, checked) {
+  for (let i = 0; i < markers.length; i++) {
+    if (type == markers[i].type) {
+      markers[i].setVisible(checked);
+    }
+  }
+}
+
+function myFunction() {
+  console.log("func");
 }
 
 //FUNCTIONS for rectangle
@@ -133,18 +155,18 @@ function countMarkers() {
 const RestaurantMaps = () => {
   const [filterState, setfilterState] = useState(false);
   const [rectangleState, setrectangleState] = useState(false);
-  // const [state, setState] = React.useState({
-  //   FINE_DINING: true,
-  //   CASUAL_DINING: true,
-  //   BUFFET: true,
-  //   CAFE: true,
-  //   FAST_FOOD: true,
-  // });
+  const [state, setState] = React.useState({
+    FINE_DINING: true,
+    CASUAL_DINING: true,
+    BUFFET: true,
+    CAFE: true,
+    FAST_FOOD: true,
+  });
 
-  // const { FINE_DINING, CASUAL_DINING, BUFFET, CAFE, FAST_FOOD } = state;
-  // const filterChange = (event) => {
-  //   setState({ ...state, [event.target.name]: event.target.checked });
-  // };
+  const filterChange = (event) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+    filterMarkers(event.target.name, event.target.checked);
+  };
 
   const filterAction = (e) => {
     filterState ? setfilterState(false) : setfilterState(true);
@@ -187,36 +209,85 @@ const RestaurantMaps = () => {
           </div>
         </div>
         <div className="filter-sub">
-          {filterState ? <Card>{cardContent}</Card> : ""}
+          {filterState ? (
+            <Card>
+              {/* {cardContent} */}
+              <CardContent>
+                <FormGroup>
+                  <FormControlLabel
+                    key={"FINE_DINING"}
+                    control={
+                      <Checkbox
+                        key={"FINE_DINING"}
+                        checked={state.FINE_DINING}
+                        onChange={filterChange}
+                        name="FINE_DINING"
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Fine Dining"
+                  />
+                  <FormControlLabel
+                    key={"CASUAL_DINING"}
+                    control={
+                      <Checkbox
+                        key={"CASUAL_DINING"}
+                        checked={state.CASUAL_DINING}
+                        onChange={filterChange}
+                        name="CASUAL_DINING"
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Casual Dining"
+                  />
+                  <FormControlLabel
+                    key={"BUFFET"}
+                    control={
+                      <Checkbox
+                        key={"BUFFET"}
+                        checked={state.BUFFET}
+                        onChange={filterChange}
+                        name="BUFFET"
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Buffet"
+                  />
+                  <FormControlLabel
+                    key={"CAFE"}
+                    control={
+                      <Checkbox
+                        key={"CAFE"}
+                        checked={state.CAFE}
+                        onChange={filterChange}
+                        name="CAFE"
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Cafe"
+                  />
+                  <FormControlLabel
+                    key={"FAST_FOOD"}
+                    control={
+                      <Checkbox
+                        key={"FAST_FOOD"}
+                        checked={state.FAST_FOOD}
+                        onChange={filterChange}
+                        name="FAST_FOOD"
+                        inputProps={{ "aria-label": "controlled" }}
+                      />
+                    }
+                    label="Fastfood"
+                  />
+                </FormGroup>
+              </CardContent>
+            </Card>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
   );
 };
-
-const cardContent = (
-  <CardContent>
-    <FormGroup>
-      {restaurantType
-        ? restaurantType.map((type) => {
-            return (
-              <FormControlLabel
-                key={type.id}
-                control={
-                  <Checkbox
-                    key={type.id}
-                    checked={type.checked}
-                    // onChange={filterChange}
-                    inputProps={{ "aria-label": "controlled" }}
-                  />
-                }
-                label={type.name}
-              />
-            );
-          })
-        : `Can't Load This Component`}
-    </FormGroup>
-  </CardContent>
-);
-
 export default RestaurantMaps;

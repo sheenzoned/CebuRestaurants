@@ -20,7 +20,7 @@ export const restaurants = [
     },
     foodSpecialty: ["Chicken Wings"],
     visits: 1,
-    type: "FASTFOOD",
+    type: "FAST_FOOD",
   },
   {
     place_id: "2",
@@ -43,7 +43,7 @@ export const restaurants = [
     },
     foodSpecialty: ["Ramen", "Chicken Karaage"],
     visits: 1,
-    type: "FASTFOOD",
+    type: "FAST_FOOD",
   },
   {
     place_id: "3",
@@ -256,12 +256,4 @@ export const restaurants = [
     visits: 1,
     type: "BUFFET",
   },
-];
-
-export const restaurantType = [
-  { id: "FINE_DINING", name: "Fine Dining", checked: true },
-  { id: "CASUAL_DINING", name: "Casual Dining", checked: true },
-  { id: "BUFFET", name: "Buffet", checked: true },
-  { id: "CAFE", name: "Cafe", checked: true },
-  { id: "FAST_FOOD", name: "Fast Food", checked: true },
 ];
