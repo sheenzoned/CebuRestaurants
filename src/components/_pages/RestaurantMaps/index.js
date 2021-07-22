@@ -191,7 +191,6 @@ function createRectangle() {
   // Add an event listener on the rectangle.
   rectangle.addListener("bounds_changed", rectangleChange);
   rectangleWindow = new window.google.maps.InfoWindow();
-  console.log("shown");
 
   let contentString = countMarkers();
   // Set the info window's content and position.
