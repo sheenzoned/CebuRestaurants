@@ -5,8 +5,6 @@ import "./index.scss";
 import { Loader } from "@googlemaps/js-api-loader";
 import HighlightAltIcon from "@material-ui/icons/HighlightAlt";
 import FilterAltIcon from "@material-ui/icons/FilterAlt";
-import DirectionsIcon from "@material-ui/icons/Directions";
-// import { DrawRectangle } from "../../../components/_ui";
 import { restaurants } from "../../../components/_api/data";
 
 import Button from "@material-ui/core/Button";
@@ -17,16 +15,12 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
 let map;
-let infowindow;
 let rectangle;
+let infowindow;
 let rectangleWindow;
-// let selectedTypes = [
-//   "FINE_DINING",
-//   "CASUAL_DINING",
-//   "BUFFET",
-//   "CAFE",
-//   "FAST_FOOD",
-// ];
+let locationWindow;
+let directionsService;
+let directionsDisplay;
 let markers = [];
 const additionalOptions = {};
 const loader = new Loader({
@@ -58,7 +52,6 @@ function initMap() {
     //create markers for all restaurants
     for (let i = 0; i < restaurants.length; i++) {
       createMarker(restaurants[i]);
-      console.log(restaurants[i]);
     }
     map.setCenter(restaurants[0].geometry.location);
   });
@@ -77,28 +70,112 @@ function createMarker(place) {
 
   window.google.maps.event.addListener(marker, "mouseover", () => {
     const foods = place.foodSpecialty.join(", ");
-    const infoContent = "<b>" + place.name + "</b><br/>Specialty: " + foods;
+    const infoContent =
+      "<b>" +
+      place.name +
+      "</b><br/>Specialty: " +
+      foods +
+      "<br><br><i>Click the pin to get the directions.</i>";
     infowindow.setContent(infoContent);
     infowindow.open(map, marker);
   });
 
   window.google.maps.event.addListener(marker, "click", () => {
+    //to avoid overlapping directions
+    if (directionsDisplay) {
+      locationWindow.close();
+      directionsDisplay.set("directions", null);
+    }
     let lat = marker.getPosition().lat();
     let lng = marker.getPosition().lng();
-    // marker.setVisible(false);
+    getLocation(lat, lng, place.name); //getting directions
   });
 }
 
+//update marker visibility
 function filterMarkers(type, checked) {
   for (let i = 0; i < markers.length; i++) {
-    if (type == markers[i].type) {
+    if (type === markers[i].type) {
       markers[i].setVisible(checked);
     }
   }
 }
 
-function myFunction() {
-  console.log("func");
+//directions
+//destination info
+function getLocation(lat, lng, name) {
+  locationWindow = new window.google.maps.InfoWindow();
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        let origin = new window.google.maps.LatLng(pos.lat, pos.lng);
+        let destination = new window.google.maps.LatLng(lat, lng);
+
+        // get route from current location to the restaurant
+        calculateAndDisplayRoute(origin, destination, name);
+      },
+      () => {
+        handleLocationError(true, locationWindow, map.getCenter());
+      }
+    );
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, locationWindow, map.getCenter());
+  }
+}
+
+function calculateAndDisplayRoute(origin, destination, name) {
+  directionsService = new window.google.maps.DirectionsService();
+  directionsDisplay = new window.google.maps.DirectionsRenderer({
+    map: map,
+  });
+  directionsService.route(
+    {
+      origin: origin,
+      destination: destination,
+      avoidTolls: true,
+      avoidHighways: false,
+      travelMode: window.google.maps.TravelMode.DRIVING,
+    },
+    function (response, status) {
+      if (status === window.google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+
+        let duration = response.routes[0].legs[0].duration.text;
+        let distance = response.routes[0].legs[0].distance.text;
+        infowindow.close();
+        locationWindow.setContent(
+          "<b>" +
+            name +
+            "</b><br/><i>Distance: " +
+            distance +
+            "<br/>Travel time by car: " +
+            duration +
+            "</i>"
+        );
+        locationWindow.setPosition(destination);
+        locationWindow.open(map);
+      } else {
+        locationWindow.setPosition(map.getCenter());
+        locationWindow.setContent("Directions request failed due to " + status);
+      }
+    }
+  );
+}
+
+function handleLocationError(browserHasGeolocation, locationWindow, pos) {
+  locationWindow.setPosition(pos);
+  locationWindow.setContent(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
 }
 
 //FUNCTIONS for rectangle
@@ -138,6 +215,7 @@ function rectangleChange() {
   rectangleWindow.setPosition(rectangle.getBounds().getNorthEast());
 }
 
+//count number of restaurant inside the rectangle
 function countMarkers() {
   const ne = rectangle.getBounds().getNorthEast();
   const sw = rectangle.getBounds().getSouthWest();
