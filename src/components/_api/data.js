@@ -256,4 +256,188 @@ export const restaurants = [
     visits: 1,
     type: "BUFFET",
   },
+  {
+    place_id: "12",
+    name: "Eatadakimasu",
+    geometry: {
+      location: {
+        lat: 10.31763,
+        lng: 123.902683,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Chicken Nanban"],
+    visits: 1,
+    type: "FAST_FOOD",
+  },
+  {
+    place_id: "13",
+    name: "Back to Eden",
+    geometry: {
+      location: {
+        lat: 10.316227,
+        lng: 123.891317,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Tofu Sisig", "Meatless Burger"],
+    visits: 1,
+    type: "CASUAL_DINING",
+  },
+  {
+    place_id: "14",
+    name: "Plant-Base",
+    geometry: {
+      location: {
+        lat: 10.317983,
+        lng: 123.907272,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Tofu Sinigang", "Vegan Pizza"],
+    visits: 1,
+    type: "CASUAL_DINING",
+  },
+  {
+    place_id: "15",
+    name: "Wilderness",
+    geometry: {
+      location: {
+        lat: 10.32205,
+        lng: 123.780494,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Revel Bar", "4 Seasons"],
+    visits: 1,
+    type: "CAFE",
+  },
+  {
+    place_id: "16",
+    name: "Yakitori",
+    geometry: {
+      location: {
+        lat: 10.325471,
+        lng: 123.916707,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Grilled Chicken"],
+    visits: 1,
+    type: "FAST_FOOD",
+  },
+  {
+    place_id: "17",
+    name: "Turo-turo",
+    geometry: {
+      location: {
+        lat: 10.319882,
+        lng: 123.904841,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Lumpiang Togue", "Vegan Siomai"],
+    visits: 1,
+    type: "FAST_FOOD",
+  },
+  {
+    place_id: "18",
+    name: "Bibigo",
+    geometry: {
+      location: {
+        lat: 10.334978,
+        lng: 123.934066,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Kimchi"],
+    visits: 1,
+    type: "FAST_FOOD",
+  },
+  {
+    place_id: "19",
+    name: "Hapagkainan",
+    geometry: {
+      location: {
+        lat: 10.298527,
+        lng: 123.895113,
+      },
+      viewport: {
+        northeast: {
+          lat: 10.32705352989272,
+          lng: 123.8968056798927,
+        },
+        southwest: {
+          lat: 10.32435387010728,
+          lng: 123.8941060201073,
+        },
+      },
+    },
+    foodSpecialty: ["Kaldereta"],
+    visits: 1,
+    type: "CASUAL_DINING",
+  },
 ];
