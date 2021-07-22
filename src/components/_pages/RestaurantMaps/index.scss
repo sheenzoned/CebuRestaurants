@@ -5,8 +5,25 @@
   position: fixed !important;
 }
 
-.draw {
+.controls {
   position: relative;
   float: right;
   margin: 10px 60px;
+  width: 140px;
+  .main {
+    display: flex;
+    .draw {
+    }
+    .filter {
+      margin-right: 5px;
+    }
+
+    .btn {
+      background-color: white;
+    }
+  }
+  .filter-sub {
+    width: 190px;
+    margin-top: 5px;
+  }
 }
