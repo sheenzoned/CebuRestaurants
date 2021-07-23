@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/CebuRestaurants/static/css/main.bb0f0484.chunk.css",
+    "main.js": "/CebuRestaurants/static/js/main.4cb9be68.chunk.js",
+    "main.js.map": "/CebuRestaurants/static/js/main.4cb9be68.chunk.js.map",
+    "runtime-main.js": "/CebuRestaurants/static/js/runtime-main.d1080a5b.js",
+    "runtime-main.js.map": "/CebuRestaurants/static/js/runtime-main.d1080a5b.js.map",
+    "static/js/2.59f3c849.chunk.js": "/CebuRestaurants/static/js/2.59f3c849.chunk.js",
+    "static/js/2.59f3c849.chunk.js.map": "/CebuRestaurants/static/js/2.59f3c849.chunk.js.map",
+    "static/js/3.c50f6859.chunk.js": "/CebuRestaurants/static/js/3.c50f6859.chunk.js",
+    "static/js/3.c50f6859.chunk.js.map": "/CebuRestaurants/static/js/3.c50f6859.chunk.js.map",
+    "index.html": "/CebuRestaurants/index.html",
+    "static/css/main.bb0f0484.chunk.css.map": "/CebuRestaurants/static/css/main.bb0f0484.chunk.css.map",
+    "static/js/2.59f3c849.chunk.js.LICENSE.txt": "/CebuRestaurants/static/js/2.59f3c849.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d1080a5b.js",
+    "static/js/2.59f3c849.chunk.js",
+    "static/css/main.bb0f0484.chunk.css",
+    "static/js/main.4cb9be68.chunk.js"
+  ]
+}
