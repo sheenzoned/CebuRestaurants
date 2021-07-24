@@ -89,8 +89,6 @@ function createMarker(place) {
 }
 
 function getDirectionsClick() {
-  console.log("test");
-  console.log(mark);
   // //to avoid overlapping directions
   if (directionsDisplay) {
     locationWindow.close();
