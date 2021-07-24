@@ -57,6 +57,7 @@ function initMap() {
   });
 }
 
+let mark;
 function createMarker(place) {
   if (!place.geometry || !place.geometry.location) return;
 
@@ -65,31 +66,37 @@ function createMarker(place) {
     map,
     position: place.geometry.location,
     type: place.type,
+    name: place.name,
   });
   markers.push(marker);
 
-  window.google.maps.event.addListener(marker, "mouseover", () => {
+  window.google.maps.event.addListener(marker, "click", () => {
     const foods = place.foodSpecialty.join(", ");
     const infoContent =
       "<b>" +
       place.name +
       "</b><br/>Specialty: " +
       foods +
-      "<br><br><i>Click the pin to get the directions.</i>";
+      "<br><br><button id='getDirections' onclick='getDirections()'>Get directions</button>";
     infowindow.setContent(infoContent);
     infowindow.open(map, marker);
+    mark = marker;
   });
 
-  window.google.maps.event.addListener(marker, "click", () => {
-    //to avoid overlapping directions
-    if (directionsDisplay) {
-      locationWindow.close();
-      directionsDisplay.set("directions", null);
-    }
-    let lat = marker.getPosition().lat();
-    let lng = marker.getPosition().lng();
-    getLocation(lat, lng, place.name); //getting directions
+  window.google.maps.event.addListener(infowindow, "domready", function () {
+    document.getElementById("getDirections").onclick = getDirectionsClick;
   });
+}
+
+function getDirectionsClick() {
+  console.log("test");
+  console.log(mark);
+  // //to avoid overlapping directions
+  if (directionsDisplay) {
+    locationWindow.close();
+    directionsDisplay.set("directions", null);
+  }
+  getLocation(); //getting directions
 }
 
 //update marker visibility
@@ -103,7 +110,7 @@ function filterMarkers(type, checked) {
 
 //directions
 //destination info
-function getLocation(lat, lng, name) {
+function getLocation() {
   locationWindow = new window.google.maps.InfoWindow();
 
   if (navigator.geolocation) {
@@ -115,10 +122,13 @@ function getLocation(lat, lng, name) {
         };
 
         let origin = new window.google.maps.LatLng(pos.lat, pos.lng);
-        let destination = new window.google.maps.LatLng(lat, lng);
+        let destination = new window.google.maps.LatLng(
+          mark.position.lat(),
+          mark.position.lng()
+        );
 
         // get route from current location to the restaurant
-        calculateAndDisplayRoute(origin, destination, name);
+        calculateAndDisplayRoute(origin, destination, mark.name);
       },
       () => {
         handleLocationError(true, locationWindow, map.getCenter());
@@ -159,8 +169,7 @@ function calculateAndDisplayRoute(origin, destination, name) {
             duration +
             "</i>"
         );
-        locationWindow.setPosition(destination);
-        locationWindow.open(map);
+        locationWindow.open(map, mark);
       } else {
         locationWindow.setPosition(map.getCenter());
         locationWindow.setContent("Directions request failed due to " + status);
